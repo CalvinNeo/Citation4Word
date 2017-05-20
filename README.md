@@ -1,13 +1,15 @@
 # Citation4Word
 国内论文引用文献样式
 基于Word2013 IEEE 样式改造
-1. 去掉论文名外部的引号
-2. 去掉部分分类出版商的斜体
+1. CHN_Italic去掉论文名外部的引号
+2. CHN_NoItalic额外去掉部分分类出版商的斜体
+3. CHN_Supc额外将引用作为商标
+4. CHN_Date额外将日期格式改为年/月/日
 
 # 使用方法
 1. 将xsl文件导入%APPDATA%\Microsoft\Bibliography\Style路径，该路径可能不存在，在添加引文后会自动生成
 2. 选择样式CHN
-![](/usage.png)
+	![](/usage.png)
 
 # 开发说明
 ## 对照
