@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- This style is Modified By Calvin Neo -->
+<!-- ref www.calvinneo.com -->
+<!-- ref https://github.com/CalvinNeo/Citation4Word/ -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
 				xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns:t="http://www.microsoft.com/temp">
 
@@ -2165,14 +2167,14 @@
 	</xsl:template>
 
 	<xsl:template name ="BibDisplayDayMonthYearWebSiteJournal">
+		<xsl:variable name ="cYear">
+			<xsl:value-of select="count(b:Year)"/>
+		</xsl:variable>
 		<xsl:variable name ="cMonth">
 			<xsl:value-of select="count(b:Month)"/>
 		</xsl:variable>
 		<xsl:variable name ="cDay">
 			<xsl:value-of select="count(b:Day)"/>
-		</xsl:variable>
-		<xsl:variable name ="cYear">
-			<xsl:value-of select="count(b:Year)"/>
 		</xsl:variable>
 
 		<xsl:choose>
@@ -2181,11 +2183,11 @@
 					<xsl:when test ="$cMonth!=0">
 						<xsl:choose>
 							<xsl:when test ="$cYear!=0">
-								<xsl:value-of select="b:Day"/>
+								<xsl:value-of select="b:Year"/>
 								<xsl:call-template name ="templ_prop_Space"/>
 								<xsl:value-of select="b:Month"/>
 								<xsl:call-template name ="templ_prop_Space"/>
-								<xsl:value-of select="b:Year"/>
+								<xsl:value-of select="b:Day"/>
 								<xsl:call-template name ="templ_prop_Dot"/>
 							</xsl:when>
 						</xsl:choose>
@@ -2203,9 +2205,9 @@
 			<xsl:when test="$cMonth!=0">
 				<xsl:choose>
 					<xsl:when test ="$cYear!=0">
-						<xsl:value-of select="b:Month"/>
-						<xsl:call-template name ="templ_prop_Space"/>
 						<xsl:value-of select="b:Year"/>
+						<xsl:call-template name ="templ_prop_Space"/>
+						<xsl:value-of select="b:Month"/>
 						<xsl:call-template name ="templ_prop_Dot"/>
 					</xsl:when>
 				</xsl:choose>
@@ -8152,8 +8154,8 @@
 				$SourceType = 'Patent' or
                 $SourceType = 'ConferenceProceedings' ">
 					<html xmlns="http://www.w3.org/TR/REC-html40">
-						<body>
-
+						<body>							
+							<sup>
 							<xsl:variable name ="cPages">
 								<xsl:value-of select="count(b:Pages)" />
 							</xsl:variable>
@@ -8197,6 +8199,7 @@
 								<xsl:call-template name="templ_prop_ListSeparator"/>
 								<xsl:call-template name ="templ_prop_Space"/>
 							</xsl:if>
+							</sup>
 						</body>
 					</html>
 				</xsl:when>

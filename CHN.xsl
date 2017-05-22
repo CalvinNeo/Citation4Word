@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- This style is Modified By Calvin Neo -->
+<!-- ref www.calvinneo.com -->
+<!-- ref https://github.com/CalvinNeo/Citation4Word/ -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
 				xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns:t="http://www.microsoft.com/temp">
 
@@ -2092,13 +2094,13 @@
 		<xsl:param name ="pages"/>
 		<xsl:choose>
 			<xsl:when test="contains($pages, '-')">
-				<xsl:value-of select="concat('pp. ', $pages)"/>
+				<xsl:value-of select="concat('', $pages)"/>
 			</xsl:when>
 			<xsl:when test="contains($pages, ',')">
-				<xsl:value-of select="concat('pp. ', $pages)"/>
+				<xsl:value-of select="concat('', $pages)"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat('p. ', $pages)"/>
+				<xsl:value-of select="concat('', $pages)"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -2175,52 +2177,7 @@
 			<xsl:value-of select="count(b:Day)"/>
 		</xsl:variable>
 
-		<xsl:choose>
-			<xsl:when test ="$cDay!=0">
-				<xsl:choose>
-					<xsl:when test ="$cMonth!=0">
-						<xsl:choose>
-							<xsl:when test ="$cYear!=0">
-								<xsl:value-of select="b:Year"/>
-								<xsl:call-template name ="templ_prop_Space"/>
-								<xsl:value-of select="b:Month"/>
-								<xsl:call-template name ="templ_prop_Space"/>
-								<xsl:value-of select="b:Day"/>
-								<xsl:call-template name ="templ_prop_Dot"/>
-							</xsl:when>
-						</xsl:choose>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:if test ="$cYear!=0">
-							<xsl:value-of select="b:Year"/>
-							<xsl:call-template name ="templ_prop_Dot"/>
-						</xsl:if>
-					</xsl:otherwise>
-
-				</xsl:choose>
-			</xsl:when>
-
-			<xsl:when test="$cMonth!=0">
-				<xsl:choose>
-					<xsl:when test ="$cYear!=0">
-						<xsl:value-of select="b:Year"/>
-						<xsl:call-template name ="templ_prop_Space"/>
-						<xsl:value-of select="b:Month"/>
-						<xsl:call-template name ="templ_prop_Dot"/>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:when>
-			<xsl:when test="$cDay!=0 and $cYear!=0 ">
-				<xsl:value-of select="b:Year"/>
-				<xsl:call-template name ="templ_prop_Dot"/>
-			</xsl:when>
-
-
-			<xsl:when test="$cYear!=0">
-				<xsl:value-of select="b:Year"/>
-				<xsl:call-template name ="templ_prop_Dot"/>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:value-of select="b:Year"/>
 		<xsl:call-template name ="templ_prop_Space"/>
 	</xsl:template>
 
@@ -2459,17 +2416,11 @@
 				<xsl:with-param name ="s" select="b:Title"/>
 			</xsl:call-template>
 
-			<xsl:choose>
-				<xsl:when test="$cJournalName!=0 or $cVolume!=0 or $cIssue!=0 or $cPages!=0 or $cYear!=0 ">
-					<xsl:call-template name ="List_Separator_NoSpace"/>
-					<xsl:call-template name="templ_prop_CloseQuote"/>
-					<xsl:call-template name ="templ_prop_Space"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="templ_prop_CloseQuote"/>
-					<xsl:call-template name ="templ_prop_Dot"/>
-				</xsl:otherwise>
-			</xsl:choose>
+
+			<xsl:call-template name="templ_prop_CloseQuote"/>
+			<span>[J]</span>
+			<xsl:call-template name ="templ_prop_Dot"/>
+			<xsl:call-template name ="templ_prop_Space"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -2495,18 +2446,12 @@
 			<xsl:call-template name="right-trim">
 				<xsl:with-param name ="s" select="b:Title"/>
 			</xsl:call-template>
+			
+			<xsl:call-template name="templ_prop_CloseQuote"/>
+			<span>[D]</span>
+			<xsl:call-template name ="templ_prop_Dot"/>
+			<xsl:call-template name ="templ_prop_Space"/>
 
-			<xsl:choose>
-				<xsl:when test="$cVolume!=0 or $cIssue!=0 or $cPages!=0 or $cYear!=0 ">
-					<xsl:call-template name ="List_Separator_NoSpace"/>
-					<xsl:call-template name="templ_prop_CloseQuote"/>
-					<xsl:call-template name ="templ_prop_Space"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="templ_prop_CloseQuote"/>
-					<xsl:call-template name ="templ_prop_Dot"/>
-				</xsl:otherwise>
-			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
 
@@ -5432,14 +5377,8 @@
 					<xsl:choose>
 						<xsl:when test="$cAuthorLastName=1">
 							<xsl:value-of select="b:Last"/>
-							<xsl:choose>
-								<xsl:when test="$cTitle!=0 or $cJournalName!=0 or $cVolume!=0 or $cIssue!=0 or $cYear!=0 or $cPages!=0">
-									<xsl:call-template name ="templ_prop_ListSeparator"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:call-template name ="templ_prop_Dot"/>
-								</xsl:otherwise>
-							</xsl:choose>
+							<xsl:call-template name ="templ_prop_Dot"/>
+							<xsl:call-template name ="templ_prop_Space"/>
 						</xsl:when>
 					</xsl:choose>
 				</xsl:for-each>
@@ -5459,8 +5398,7 @@
 
 					<xsl:choose>
 						<xsl:when test ="(position())=$cAuthors">
-							<xsl:call-template name ="templ_prop_Space"/>
-							<xsl:call-template name ="templ_str_AndUnCap"/>
+							<span>,</span>
 							<xsl:call-template name ="templ_prop_Space"/>
 						</xsl:when>
 					</xsl:choose>
@@ -5526,14 +5464,8 @@
 						</xsl:when>
 					</xsl:choose>
 				</xsl:for-each>
-				<xsl:choose>
-					<xsl:when test="$cTitle!=0 or $cJournalName!=0 or $cVolume!=0 or $cIssue!=0 or $cYear!=0 or $cPages!=0">
-						<xsl:call-template name ="templ_prop_ListSeparator"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:call-template name ="templ_prop_Dot"/>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:call-template name ="templ_prop_Dot"/>
+				<xsl:call-template name ="templ_prop_Space"/>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
@@ -6097,28 +6029,9 @@
 			<xsl:call-template name="right-trim">
 				<xsl:with-param name ="s" select="b:Title"/>
 			</xsl:call-template>
-			<xsl:choose>
-				<xsl:when test="$cAuthor=0">
-					<xsl:choose>
-						<xsl:when test="$cEdition!=0 or $cVolume!=0 or $cCity!=0 or $cStateProvince!=0 or $cPublisher!=0 or $cYear!=0 or $cPages!=0">
-							<xsl:call-template name ="templ_prop_ListSeparator"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:call-template name ="templ_prop_Dot"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:choose>
-						<xsl:when test="$cEdition!=0 or $cVolume!=0 or $cEditor!=0 or $cCity!=0 or $cStateProvince!=0 or $cPublisher!=0 or $cYear!=0 or $cPages!=0">
-							<xsl:call-template name ="templ_prop_ListSeparator"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:call-template name ="templ_prop_Dot"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:otherwise>
-			</xsl:choose>
+			<span>[M]</span>
+			<xsl:call-template name ="templ_prop_Dot"/>
+			<xsl:call-template name ="templ_prop_Space"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -6271,14 +6184,8 @@
 
 		<xsl:if test ="$cJournalName!=0">
 			<xsl:value-of select="b:JournalName"/>
-			<xsl:choose>
-				<xsl:when test="$cVolume!=0 or $cIssue!=0 or $cPages!=0 or $cYear!=0">
-					<xsl:call-template name ="templ_prop_ListSeparator"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name ="templ_prop_Dot"/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:call-template name ="templ_prop_ListSeparator"/>
+			<xsl:call-template name ="templ_prop_Space"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -6301,14 +6208,8 @@
 
 		<xsl:if test ="$cJournalName!=0">
 			<xsl:value-of select="b:PeriodicalTitle"/>
-			<xsl:choose>
-				<xsl:when test="$cVolume!=0 or $cIssue!=0 or $cPages!=0 or $cYear!=0">
-					<xsl:call-template name ="templ_prop_ListSeparator"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name ="templ_prop_Dot"/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:call-template name ="templ_prop_ListSeparator"/>
+			<xsl:call-template name ="templ_prop_Space"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -6331,47 +6232,9 @@
 
 		<xsl:choose>
 			<xsl:when test ="$cVolume!=0">
-				<xsl:choose>
-					<xsl:when test="contains($initValueOfVolume,'-') or contains($initValueOfVolume,',') ">
-						<xsl:variable name="str_VolumesOfShortCap">
-							<xsl:call-template name="templ_str_VolumesOfShortCap"/>
-						</xsl:variable>
-						<xsl:variable name="prop_EnumSeaparator">
-							<xsl:call-template name="templ_prop_Space"/>
-						</xsl:variable>
-						<xsl:call-template name ="FindReplaceString">
-							<xsl:with-param name="originalString" select="string($str_VolumesOfShortCap)"/>
-							<xsl:with-param name="stringToBeReplaced" select="'%1 of %2'"/>
-							<xsl:with-param name="stringReplacement" select="$prop_EnumSeaparator"/>
-						</xsl:call-template>
-
-						<xsl:value-of select="b:Volume"/>
-					</xsl:when>
-
-					<xsl:when test="not(contains($initValueOfVolume,'-')) or not(contains($initValueOfVolume,','))">
-						<xsl:call-template name ="templ_prop_Space"/>
-						<xsl:variable name="str_VolumeShortUnCap">
-							<xsl:call-template name="templ_str_VolumeShortUnCap"/>
-						</xsl:variable>
-						<xsl:variable name="prop_EnumSeaparator">
-							<xsl:call-template name="templ_prop_Space"/>
-						</xsl:variable>
-						<xsl:call-template name ="FindReplaceString">
-							<xsl:with-param name="originalString" select="string($str_VolumeShortUnCap)"/>
-							<xsl:with-param name="stringToBeReplaced" select="' %1'"/>
-							<xsl:with-param name="stringReplacement" select="$prop_EnumSeaparator"/>
-						</xsl:call-template>
-						<xsl:value-of select="b:Volume"/>
-					</xsl:when>
-				</xsl:choose>
-				<xsl:choose>
-					<xsl:when test="$cPages!=0 or $cYear!=0 or $cIssue!=0">
-						<xsl:call-template name ="templ_prop_ListSeparator"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:call-template name ="templ_prop_Dot"/>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="b:Volume"/>
+				<span>:</span>
+				<xsl:call-template name="templ_prop_Space"/>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
@@ -6511,10 +6374,10 @@
 	<xsl:variable name ="pages">
 		<xsl:choose>
 			<xsl:when test="contains($initValueOfPages, '-')">
-				<xsl:value-of select="concat('pp. ',$initValueOfPages)"/>
+				<xsl:value-of select="concat('p. ',$initValueOfPages)"/>
 			</xsl:when>
 			<xsl:when test="contains($initValueOfPages, ',')">
-				<xsl:value-of select="concat('pp. ',$initValueOfPages)"/>
+				<xsl:value-of select="concat('p. ',$initValueOfPages)"/>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="concat('p. ',$initValueOfPages)"/>
@@ -6542,14 +6405,7 @@
 			<xsl:call-template name ="DisplayPageOrPages">
 				<xsl:with-param name="pages" select ="$pages"/>
 			</xsl:call-template>
-			<xsl:choose>
-				<xsl:when test="$cYear=0">
-					<xsl:call-template name ="templ_prop_Dot"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name ="templ_prop_ListSeparator"/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:call-template name ="templ_prop_Dot"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -7571,7 +7427,8 @@
 							<xsl:call-template name = "BibDisplayAuthorWebsite"/>
 							<xsl:call-template name ="BibDisplayTitleWebSite"/>
 							<xsl:call-template name ="BibDisplayProductionCompanywebsite"/>
-							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>
+							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>							
+							<xsl:call-template name ="templ_prop_ListSeparator"/>
 							<xsl:call-template name ="BibDisplayStrOnline"/>
 							<xsl:call-template name ="BibDisplayURL"/>
 							<xsl:call-template name ="BibDisplayAccessedDates"/>
@@ -7607,13 +7464,12 @@
 								<xsl:with-param name ="DisplayEditorIfAuthorUnavailale" select="'true'" />
 							</xsl:call-template>
 							<xsl:call-template name = "BibDisplayTitleJournal"/>
-							
-								<xsl:call-template name ="BibDisplayJournalName"/>
-							
+							<xsl:call-template name ="BibDisplayJournalName"/>
+							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>						
+							<xsl:call-template name ="templ_prop_ListSeparator"/>
 							<xsl:call-template name="BibDisplayVolumeJournal"/>
 							<xsl:call-template name ="BibDisplayIssueJournal"/>
 							<xsl:call-template name ="BibDisplayPagesJournal"/>
-							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>
 						</xsl:element>
 					</xsl:element>
 				</xsl:element>
@@ -7646,13 +7502,12 @@
 								<xsl:with-param name ="DisplayEditorIfAuthorUnavailale" select="'true'" />
 							</xsl:call-template>
 							<xsl:call-template name = "BibDisplayTitleAP"/>
-							
-								<xsl:call-template name ="BibDisplayJournalNameAP"/>
-							
-							<xsl:call-template name="BibDisplayVolumeJournal"/>
-							<xsl:call-template name ="BibDisplayIssueJournal"/>
-							<xsl:call-template name="BibDisplayPagesJournal"/>
-							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>
+							<xsl:call-template name = "BibDisplayJournalNameAP"/>
+							<xsl:call-template name = "BibDisplayVolumeJournal"/>
+							<xsl:call-template name = "BibDisplayIssueJournal"/>
+							<xsl:call-template name = "BibDisplayPagesJournal"/>
+							<xsl:call-template name = "BibDisplayDayMonthYearWebSiteJournal"/>						
+							<xsl:call-template name = "templ_prop_Dot"/>
 						</xsl:element>
 					</xsl:element>
 				</xsl:element>
@@ -8236,3 +8091,6 @@
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
+<!-- This style is Modified By Calvin Neo -->
+<!-- ref www.calvinneo.com -->
+<!-- ref https://github.com/CalvinNeo/Citation4Word/ -->
